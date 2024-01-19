@@ -60,36 +60,73 @@
         $today.html(markup);
     }
 
+    // function displayForecast(data) {
+    //     $forecastContainer.empty();
+
+    //     const days = data.list.filter(reading => reading.dt_txt.includes('12:00:00'));
+
+    //     const forecastTitle = "<h3>Weather forecast for the next 5 days:</h3>";
+    //     $forecastContainer.append(forecastTitle);
+
+    //     days.forEach(day => {
+    //         const date = dayjs(day.dt_txt).format('DD/MM/YYYY');
+    //         const icon = `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
+    //         const temp = day.main.temp;
+    //         const humidity = day.main.humidity;
+                
+
+    //         const dayCard = `
+        
+    //       <div class="forecast-day">
+    //         <h3>${date}</h3>
+    //         <img src="${icon}" />
+    //         <p>Temp: ${temp} &deg;C</p>
+    //         <p>Humidity: ${humidity}%</p>
+            
+    //       </div>
+    //     `;
+
+
+    //         $forecastContainer.append(dayCard);
+    //     });
+    // }
+
     function displayForecast(data) {
         $forecastContainer.empty();
-
+    
         const days = data.list.filter(reading => reading.dt_txt.includes('12:00:00'));
-
-        const forecastTitle = "<h2>Weather forecast for the next 5 days:</h2>";
-        $forecastContainer.append(forecastTitle);
-
+    
+        const forecastTitle = "<h3>Weather forecast for the next 5 days:</h3>";
+        
+        // Create a container for the title and day cards
+        const forecastContainer = $("<div class='forecast-container'></div>");
+        
+        // Append the title to the container
+        forecastContainer.append(forecastTitle);
+    
         days.forEach(day => {
             const date = dayjs(day.dt_txt).format('DD/MM/YYYY');
             const icon = `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
             const temp = day.main.temp;
             const humidity = day.main.humidity;
-                
-
-            const markup = `
-        
-          <div class="forecast-day">
-            <h3>${date}</h3>
-            <img src="${icon}" />
-            <p>Temp: ${temp} &deg;C</p>
-            <p>Humidity: ${humidity}%</p>
-            
-          </div>
-        `;
-
-
-            $forecastContainer.append(markup);
+    
+            const dayCard = `
+                <div class="forecast-day">
+                    <h5>${date}</h5>
+                    <img src="${icon}" />
+                    <p>Temp: ${temp} &deg;C</p>
+                    <p>Humidity: ${humidity}%</p>
+                </div>
+            `;
+    
+            // Append each day card to the container
+            forecastContainer.append(dayCard);
         });
+    
+        // Append the container to the forecast section
+        $forecastContainer.append(forecastContainer);
     }
+    
 
     function storeSearch(city) {
         let searches = JSON.parse(localStorage.getItem('searches')) || [];
